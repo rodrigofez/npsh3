@@ -181,7 +181,6 @@ class _MainLayoutState extends State<MainLayout> {
                     ),
                   ),
                   // ExampleDestination('Guardar', Icon(Icons.save_outlined), Icon(Icons.save)),
-
                   selectedIndex: screenIndex,
                   useIndicator: true,
                   onDestinationSelected: (int index) {

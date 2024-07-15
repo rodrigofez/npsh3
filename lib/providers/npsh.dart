@@ -25,11 +25,28 @@ class NpshProvider extends ChangeNotifier {
   num get potencia => ensayo.potencia;
   num get densidad => ensayo.densidad;
   num get pvapor => ensayo.pvapor;
+  num get patmosferica => ensayo.patmosferica;
   num get temperatura => ensayo.temperatura;
+  List<String> get nombres => ensayo.nombres;
+  bool get fromHistory => ensayo.fromHistory;
 
   void initializePoints() {
     ensayo.initializePoints();
     notifyListeners();
+  }
+
+  void addNombre() {
+    ensayo.addNombre();
+    notifyListeners();
+  }
+
+  void removeNombre({required int index}) {
+    ensayo.removeNombre(index: index);
+    notifyListeners();
+  }
+
+  void updateNombre({required int index, required String nombre}) {
+    ensayo.updateNombre(index: index, nombre: nombre);
   }
 
   void updateDensidad({required num newDensidad}) {
@@ -39,6 +56,11 @@ class NpshProvider extends ChangeNotifier {
 
   void updateTemperatura({required num newTemperatura}) {
     ensayo.updateTemperatura(newTemperatura: newTemperatura);
+    notifyListeners();
+  }
+
+  void updatePAtmosferica({required num newPAtmosferica}) {
+    ensayo.updatePAtmosferica(newPAtmosferica: newPAtmosferica);
     notifyListeners();
   }
 
@@ -113,7 +135,7 @@ class NpshProvider extends ChangeNotifier {
 
   Future<void> guardarEnsayo() async {
     var prefs = await SharedPreferences.getInstance();
-    final storedEnsayos = prefs.getStringList('storage_npsh10') ?? [];
+    final storedEnsayos = prefs.getStringList('storage_npsh174344343') ?? [];
 
     final jsonEnsayo = jsonEncode(ensayo.toJson());
 
@@ -126,7 +148,9 @@ class NpshProvider extends ChangeNotifier {
     final encodedEnsayo = jsonEncode(formattedEnsayo);
     storedEnsayos.insert(0, encodedEnsayo);
 
-    await prefs.setStringList('storage_npsh10', storedEnsayos);
+    print(storedEnsayos);
+
+    await prefs.setStringList('storage_npsh174344343', storedEnsayos);
     notifyListeners();
   }
 
@@ -142,7 +166,7 @@ class NpshProvider extends ChangeNotifier {
 
   Future<List<EnsayoIndex>> getEnsayosGuardados() async {
     var prefs = await SharedPreferences.getInstance();
-    final storedEnsayos = prefs.getStringList('storage_npsh10') ?? [];
+    final storedEnsayos = prefs.getStringList('storage_npsh174344343') ?? [];
 
     final decodedStoredEnsayos = storedEnsayos
         .map((encoded) => jsonDecode(encoded) as Map<String, dynamic>)
@@ -152,6 +176,8 @@ class NpshProvider extends ChangeNotifier {
               'data': jsonDecode(decoded['data'])
             })
         .toList();
+
+    print(decodedStoredEnsayos.length);
 
     final entries = decodedStoredEnsayos
         .map((entry) => EnsayoIndex.fromJson(entry))

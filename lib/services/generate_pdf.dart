@@ -50,6 +50,7 @@ class Utils {
       ['Densidad (kg/m3)', npshProvider.densidad],
       ['Temperatura (C)', npshProvider.temperatura],
       ['Presión de Vapor (kPa)', npshProvider.pvapor],
+      ['Presión atmosférica (kPa)', npshProvider.patmosferica],
     ];
 
     const dataTableHeaders = [
@@ -223,6 +224,34 @@ class Utils {
       cellAlignments: {0: pw.Alignment.centerLeft},
     );
 
+    final estudiantesTable = pw.TableHelper.fromTextArray(
+      border: null,
+      headers: ['Estudiantes'],
+      data: List<List<dynamic>>.generate(
+        npshProvider.nombres.length,
+        (index) => <dynamic>[...npshProvider.nombres].toList(),
+      ),
+      headerStyle: pw.TextStyle(
+          font: ttf,
+          color: PdfColors.white,
+          fontWeight: pw.FontWeight.bold,
+          fontSize: 10),
+      headerDecoration: const pw.BoxDecoration(
+        color: PdfColors.black,
+      ),
+      cellStyle: pw.TextStyle(font: ttf, fontSize: 10),
+      rowDecoration: const pw.BoxDecoration(
+        border: pw.Border(
+          bottom: pw.BorderSide(
+            color: PdfColors.black,
+            width: .5,
+          ),
+        ),
+      ),
+      cellAlignment: pw.Alignment.centerRight,
+      cellAlignments: {0: pw.Alignment.centerLeft},
+    );
+
     pdf.addPage(
       pw.MultiPage(
         pageFormat: PdfPageFormat.letter,
@@ -274,6 +303,8 @@ class Utils {
                         ),
                       ])
                 ]),
+                pw.SizedBox(height: 16),
+                showTable ? estudiantesTable : pw.SizedBox(height: 0),
                 pw.SizedBox(height: 16),
                 showTable ? table : pw.SizedBox(height: 0),
                 pw.SizedBox(height: 16),

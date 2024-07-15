@@ -24,24 +24,34 @@ class Ensayo {
     25
   ];
   late String _id;
+  late String _creationDate;
   late List<Point> _points = [];
   late List<List<ObservationPoint>> _observationPoints = [[], [], [], [], []];
   late List<NpshPoint> _npshPoints = [];
+  late bool _fromHistory;
 
   String _marca = '';
   String _serie = '';
+  List<String> _nombres = [''];
   num _potencia = 0;
   num _densidad = 1050;
   num _pVapor = 3.173;
   num _temperatura = 25;
+  num _patmosferica = 101.325;
 
   num get densidad => _densidad;
   num get pvapor => _pVapor;
   num get temperatura => _temperatura;
+  num get patmosferica => _patmosferica;
+  String get creationDate => _creationDate;
   String get id => _id;
+  List<String> get nombres => _nombres;
+  bool get fromHistory => _fromHistory;
 
   Ensayo() {
     _id = const Uuid().v4();
+    _creationDate = DateTime.now().toIso8601String();
+    _fromHistory = false;
     initializePoints();
   }
 
@@ -179,6 +189,10 @@ class Ensayo {
     calcularPvapor(temperatura: newTemperatura);
   }
 
+  void updatePAtmosferica({required num newPAtmosferica}) {
+    _patmosferica = newPAtmosferica;
+  }
+
   void updatePresionEntrada(
       {required String id, required num newPresionEntrada}) {
     int pointIndex = _points.indexWhere((point) => point.id == id);
@@ -265,6 +279,18 @@ class Ensayo {
 
   //   return newVal;
   // }
+
+  void addNombre() {
+    _nombres.add('');
+  }
+
+  void removeNombre({required int index}) {
+    _nombres.removeAt(index);
+  }
+
+  void updateNombre({required int index, required String nombre}) {
+    _nombres[index] = nombre;
+  }
 
   void updateMarca({required String newMarca}) {
     _marca = newMarca;
@@ -361,7 +387,7 @@ class Ensayo {
       final q3 = qSpline.compute(3);
 
       final npsh3 =
-          ((((101.325 - pe3) - pvapor) * 1000) / (9.81 * densidad)).abs();
+          ((((_patmosferica - pe3) - pvapor) * 1000) / (9.81 * densidad)).abs();
 
       _npshPoints[index] = NpshPoint(npsh3: npsh3, q: q3);
     });
@@ -380,6 +406,8 @@ class Ensayo {
         '_pVapor': _pVapor.toDouble(),
         '_temperatura': _temperatura.toDouble(),
         '_potencia': _potencia.toDouble(),
+        '_creationDate': _creationDate.toString(),
+        '_nombres': _nombres.toList()
       };
 
   Ensayo.fromJson(Map<String, dynamic> json)
@@ -401,5 +429,9 @@ class Ensayo {
         _densidad = (json['_densidad'] as num).toDouble(),
         _pVapor = (json['_pVapor'] as num).toDouble(),
         _temperatura = (json['_temperatura'] as num).toDouble(),
-        _potencia = (json['_potencia'] as num).toDouble();
+        _potencia = (json['_potencia'] as num).toDouble(),
+        _creationDate = json['_creationDate'] as String,
+        _nombres =
+            (json['_nombres'] as List).map((name) => name.toString()).toList(),
+        _fromHistory = true;
 }
