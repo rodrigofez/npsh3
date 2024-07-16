@@ -17,17 +17,6 @@ class ChartNPSH extends StatelessWidget {
   final Color belowLineColor;
   final Color aboveLineColor;
 
-  Widget leftTitleWidgets(double value, TitleMeta meta) {
-    const style = TextStyle(
-      color: Colors.green,
-      fontSize: 12,
-    );
-    return SideTitleWidget(
-      axisSide: meta.axisSide,
-      child: Text('\$ ${value + 0.5}', style: style),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final NpshProvider npshProvider = Provider.of<NpshProvider>(context);
@@ -118,7 +107,7 @@ class ChartNPSH extends StatelessWidget {
               ),
             ],
             minY: 0,
-            minX: 0,
+            minX: 35,
             maxX: npshProvider.allPoints.fold(
                 0,
                 (previousValue, point) => previousValue! > point.qInicial

@@ -17,74 +17,6 @@ class CavitacionChart extends StatelessWidget {
   final Color belowLineColor;
   final Color aboveLineColor;
 
-  Widget bottomTitleWidgets(double value, TitleMeta meta) {
-    String text;
-    switch (value.toInt()) {
-      case 0:
-        text = 'Jan';
-        break;
-      case 1:
-        text = 'Feb';
-        break;
-      case 2:
-        text = 'Mar';
-        break;
-      case 3:
-        text = 'Apr';
-        break;
-      case 4:
-        text = 'May';
-        break;
-      case 5:
-        text = 'Jun';
-        break;
-      case 6:
-        text = 'Jul';
-        break;
-      case 7:
-        text = 'Aug';
-        break;
-      case 8:
-        text = 'Sep';
-        break;
-      case 9:
-        text = 'Oct';
-        break;
-      case 10:
-        text = 'Nov';
-        break;
-      case 11:
-        text = 'Dec';
-        break;
-      default:
-        return Container();
-    }
-
-    return SideTitleWidget(
-      axisSide: meta.axisSide,
-      space: 4,
-      child: Text(
-        text,
-        style: TextStyle(
-          fontSize: 10,
-          color: mainLineColor,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
-    );
-  }
-
-  Widget leftTitleWidgets(double value, TitleMeta meta) {
-    const style = TextStyle(
-      color: Colors.green,
-      fontSize: 12,
-    );
-    return SideTitleWidget(
-      axisSide: meta.axisSide,
-      child: Text('\$ ${value + 0.5}', style: style),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final NpshProvider npshProvider = Provider.of<NpshProvider>(context);
@@ -228,7 +160,7 @@ class CavitacionChart extends StatelessWidget {
               })
             ],
             minY: 0,
-            minX: 0,
+            minX: 35,
             maxX: npshProvider.allPoints.fold(
                 0,
                 (previousValue, point) => previousValue! > point.qInicial

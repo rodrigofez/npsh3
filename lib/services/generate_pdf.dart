@@ -111,7 +111,7 @@ class Utils {
                     'Punto de observación ${entry.key + 1}',
                     style: pw.TextStyle(
                       font: ttf,
-                      fontSize: 14,
+                      fontSize: 12,
                       fontWeight: pw.FontWeight.bold,
                     ),
                   ),
@@ -136,11 +136,11 @@ class Utils {
                       font: ttf,
                       color: PdfColors.white,
                       fontWeight: pw.FontWeight.bold,
-                      fontSize: 10),
+                      fontSize: 8),
                   headerDecoration: const pw.BoxDecoration(
                     color: PdfColors.black,
                   ),
-                  cellStyle: pw.TextStyle(font: ttf, fontSize: 10),
+                  cellStyle: pw.TextStyle(font: ttf, fontSize: 8),
                   rowDecoration: const pw.BoxDecoration(
                     border: pw.Border(
                       bottom: pw.BorderSide(
@@ -176,11 +176,11 @@ class Utils {
           font: ttf,
           color: PdfColors.white,
           fontWeight: pw.FontWeight.bold,
-          fontSize: 10),
+          fontSize: 8),
       headerDecoration: const pw.BoxDecoration(
         color: PdfColors.black,
       ),
-      cellStyle: pw.TextStyle(font: ttf, fontSize: 10),
+      cellStyle: pw.TextStyle(font: ttf, fontSize: 8),
       rowDecoration: const pw.BoxDecoration(
         border: pw.Border(
           bottom: pw.BorderSide(
@@ -207,11 +207,11 @@ class Utils {
           font: ttf,
           color: PdfColors.white,
           fontWeight: pw.FontWeight.bold,
-          fontSize: 10),
+          fontSize: 8),
       headerDecoration: const pw.BoxDecoration(
         color: PdfColors.black,
       ),
-      cellStyle: pw.TextStyle(font: ttf, fontSize: 10),
+      cellStyle: pw.TextStyle(font: ttf, fontSize: 8),
       rowDecoration: const pw.BoxDecoration(
         border: pw.Border(
           bottom: pw.BorderSide(
@@ -229,17 +229,17 @@ class Utils {
       headers: ['Estudiantes'],
       data: List<List<dynamic>>.generate(
         npshProvider.nombres.length,
-        (index) => <dynamic>[...npshProvider.nombres].toList(),
+        (index) => <dynamic>[npshProvider.nombres[index]].toList(),
       ),
       headerStyle: pw.TextStyle(
           font: ttf,
           color: PdfColors.white,
           fontWeight: pw.FontWeight.bold,
-          fontSize: 10),
+          fontSize: 8),
       headerDecoration: const pw.BoxDecoration(
         color: PdfColors.black,
       ),
-      cellStyle: pw.TextStyle(font: ttf, fontSize: 10),
+      cellStyle: pw.TextStyle(font: ttf, fontSize: 8),
       rowDecoration: const pw.BoxDecoration(
         border: pw.Border(
           bottom: pw.BorderSide(
@@ -255,15 +255,15 @@ class Utils {
     pdf.addPage(
       pw.MultiPage(
         pageFormat: PdfPageFormat.letter,
-        margin: const pw.EdgeInsets.all(64),
+        margin: const pw.EdgeInsets.all(36),
         build: (pw.Context context) {
           return <pw.Widget>[
             pw.Column(
               children: [
                 pw.Row(children: [
                   pw.SizedBox(
-                      width: 60,
-                      height: 60,
+                      width: 50,
+                      height: 50,
                       child: pw.Image(pw.MemoryImage(imageData))),
                   pw.SizedBox(width: 20),
                   pw.Column(
@@ -273,7 +273,7 @@ class Utils {
                           "UNIVERSIDAD DE EL SALVADOR",
                           style: pw.TextStyle(
                             font: ttf,
-                            fontSize: 10,
+                            fontSize: 9,
                             fontWeight: pw.FontWeight.bold,
                           ),
                         ),
@@ -281,7 +281,7 @@ class Utils {
                           "FACULTAD DE INGENIERÍA Y ARQUITECTURA",
                           style: pw.TextStyle(
                             font: ttf,
-                            fontSize: 10,
+                            fontSize: 9,
                             fontWeight: pw.FontWeight.bold,
                           ),
                         ),
@@ -289,7 +289,7 @@ class Utils {
                           "ESCUELA DE INGENIERÍA MECÁNICA",
                           style: pw.TextStyle(
                             font: ttf,
-                            fontSize: 10,
+                            fontSize: 9,
                             fontWeight: pw.FontWeight.bold,
                           ),
                         ),
@@ -297,21 +297,35 @@ class Utils {
                           "DEPARTAMENTO DE SISTEMAS FLUIDOMECÁNICOS",
                           style: pw.TextStyle(
                             font: ttf,
-                            fontSize: 10,
+                            fontSize: 9,
                             fontWeight: pw.FontWeight.bold,
                           ),
                         ),
-                      ])
+                      ]),
+                  pw.Expanded(
+                      child: pw.Row(children: [
+                    pw.Expanded(child: pw.Container()),
+                    pw.Text(
+                      DateTime.parse(npshProvider.ensayo.creationDate)
+                          .toLocal()
+                          .toString(),
+                      style: pw.TextStyle(
+                        font: ttf,
+                        fontSize: 9,
+                        fontWeight: pw.FontWeight.bold,
+                      ),
+                    ),
+                  ])),
                 ]),
-                pw.SizedBox(height: 16),
+                pw.SizedBox(height: 14),
                 showTable ? estudiantesTable : pw.SizedBox(height: 0),
                 pw.SizedBox(height: 16),
                 showTable ? table : pw.SizedBox(height: 0),
                 pw.SizedBox(height: 16),
                 pw.Center(
                   child: pw.Container(
-                    height: 700,
-                    width: 1080,
+                    height: 400,
+                    width: 880,
                     child: pw.Expanded(
                       child: pw.Image(pw.MemoryImage(bytes!)),
                     ),
